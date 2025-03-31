@@ -3,21 +3,19 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Database\Seeders\GenreSeeder;
-use Database\Seeders\MoviesSeeder;
-use Database\Seeders\MovieGenreSeeder;
+use App\Models\Genre;
+use App\Models\Movie;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     *
-     * @return void
-     */
     public function run()
     {
-        $this->call(GenreSeeder::class);
-        $this->call(MovieSeeder::class);
-        $this->call(MovieGenreSeeder::class);
+        $genres = Genre::factory()->count(15)->create();
+        $movies = Movie::factory()->count(50)->create();
+
+        foreach ($movies as $movie) {
+            $randomGenres = $genres->random(rand(1, 3));
+            $movie->genres()->attach($randomGenres);
+        }
     }
 }
