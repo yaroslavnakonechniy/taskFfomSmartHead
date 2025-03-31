@@ -27,9 +27,9 @@ class MovieController extends Controller
         ]);
 
         if ($request->hasFile('poster')) {
-            $posterPath = $request->file('poster')->store('posters', 'public');
+            $posterPath = $request->file('poster_url')->store('public');
         } else {
-            $posterPath = 'default.jpg';
+            $posterPath = 'default.png';
         }
 
         $movie = Movie::create([
@@ -41,6 +41,10 @@ class MovieController extends Controller
         $movie->genres()->attach($request->genres);
 
         return redirect()->route('movies.index')->with('success', 'Фильм добавлен!');
+    }
+    public function show($id) {
+        $movie = Movie::findOrFail($id);
+        return view('movies.show', compact('movie'));
     }
 
     public function edit($id) {
@@ -60,7 +64,7 @@ class MovieController extends Controller
 
         if ($request->hasFile('poster')) {
             Storage::disk('public')->delete($movie->poster_url);
-            $posterPath = $request->file('poster')->store('posters', 'public');
+            $posterPath = $request->file('poster_url')->store('public');
         } else {
             $posterPath = $movie->poster_url;
         }
@@ -87,6 +91,14 @@ class MovieController extends Controller
         $movie = Movie::findOrFail($id);
         $movie->update(['is_published' => true]);
 
-        return redirect()->route('movies.index')->with('success', 'Фильм опубликован!');
+        return redirect()->back()->with('success', 'Фильм опубликован!');
+    }
+
+    public function unpublish($id) {
+        $movie = Movie::findOrFail($id);
+        $movie->is_published = !$movie->is_published;
+        $movie->save();
+
+        return redirect()->back()->with('success', 'Статус публикации фильма изменен.');
     }
 }
