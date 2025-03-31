@@ -16,9 +16,10 @@ use App\Http\Controllers\GenreController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('layouts.app');
 });
 
 Route::resource('movies', MovieController::class);
 Route::resource('genres', GenreController::class);
 Route::patch('/movies/{id}/publish', [MovieController::class, 'publish'])->name('movies.publish');
+Route::patch('/movies/{id}/unpublish', [MovieController::class, 'unpublish'])->name('movies.unpublish');
