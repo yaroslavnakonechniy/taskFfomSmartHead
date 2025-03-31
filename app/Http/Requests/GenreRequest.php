@@ -21,15 +21,13 @@ class GenreRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             'name' => 'required|string|max:255'
         ];
     }
 
-    public function messages()
-    {
+    public function messages() {
         return [
             'name.required' => 'Поле "Название" обязательно для заполнения.',
         ];

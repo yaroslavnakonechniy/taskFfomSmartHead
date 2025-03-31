@@ -21,8 +21,7 @@ class MovieRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             'title' => 'required|string|max:255',
             'poster_url' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -30,8 +29,7 @@ class MovieRequest extends FormRequest
         ];
     }
 
-    public function messages()
-    {
+    public function messages() {
         return [
             'title.required' => 'Поле "Название" обязательно для заполнения.',
             'poster_url.image' => 'Файл должен быть изображением.',

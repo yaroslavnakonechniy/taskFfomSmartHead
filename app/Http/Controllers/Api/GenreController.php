@@ -9,14 +9,12 @@ use Illuminate\Http\Request;
 
 class GenreController extends Controller
 {
-    public function index()
-    {
+    public function index() {
         $genres = Genre::all();
         return GenreResource::collection($genres);
     }
 
-    public function movies($id)
-    {
+    public function movies($id) {
         $genre = Genre::findOrFail($id);
         $movies = $genre->movies()->paginate(10);
 
